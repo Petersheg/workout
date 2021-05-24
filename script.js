@@ -80,8 +80,6 @@ class Geolocate{
         // Get Position
          this._getPosition();
 
-        //this._geoSucessOffline();
-
         //  switch between Cycling and Running
          this._switchWorkOutType();
 
@@ -113,7 +111,7 @@ class Geolocate{
 
          // Set the marker base on the data in localstorage this._addMarkerToMap(work)
          this.#workOuts.forEach(work => this._addMarkerToMap(work));
-         
+
         this.#map.on('click', this._loadForm.bind(this));
         
     }
