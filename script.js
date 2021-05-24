@@ -106,14 +106,14 @@ class Geolocate{
         const coords = [latitude, longitude];
 
         this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
-        // Set the marker base on the data in localstorage this._addMarkerToMap(work)
-        this.#workOuts.forEach(work => this._addMarkerToMap(work));
 
         L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.#map);
 
-        
+         // Set the marker base on the data in localstorage this._addMarkerToMap(work)
+         this.#workOuts.forEach(work => this._addMarkerToMap(work));
+         
         this.#map.on('click', this._loadForm.bind(this));
         
     }
