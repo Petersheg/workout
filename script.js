@@ -83,12 +83,12 @@ class Geolocate{
         //  switch between Cycling and Running
          this._switchWorkOutType();
 
-        //  Get data from local storage
-        this._getLocalStorage();
-
         //  Add event listener
          form.addEventListener('submit',this._addWorkOut.bind(this));
          containerWorkouts.addEventListener('click', this._moveMapToWorkOut.bind(this));
+
+         //  Get data from local storage
+        this._getLocalStorage();
     }
     
     _getPosition(){
@@ -110,7 +110,7 @@ class Geolocate{
         }).addTo(this.#map);
 
          // Set the marker base on the data in localstorage this._addMarkerToMap(work)
-         this.#workOuts.forEach(work => this._addMarkerToMap(work));
+         //this.#workOuts.forEach(work => this._addMarkerToMap(work));
 
         this.#map.on('click', this._loadForm.bind(this));
         
@@ -197,6 +197,8 @@ class Geolocate{
  
         this._hideform();
         this._addMarkerToMap(newWorkOut);
+        // Set the marker base on the data in localstorage this._addMarkerToMap(work)
+        this.#workOuts.forEach(work => console.log(work));
 
         // Store Data to local Storage
         this._setLocalStorage();
