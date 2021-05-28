@@ -17,7 +17,7 @@ The purpose of the App is to make users track any workout of their choice either
 
 I will work to improve the functionality such as
 
-1) Edit and Delete a particular workout
-2) sort workout base on particular input
+1) Edit and Delete a particular workout.
+2) sort workout base on particular input.
 3) Get an API to return workout address instead of using coordinates.
 4) Prolly indicate the distance of the workout from the source to destination on the map with a line.
