@@ -74,11 +74,14 @@ class Geolocate{
     #map;
     #mapZoomLevel = 13;
     #mavEve;
-    #workOuts = [];
+    #workOuts = JSON.parse(localStorage.getItem('workOuts')) || [];
 
     constructor(){
-        // Get Position
-         this._getPosition();
+        // Get Position Either online or offline
+        this._getPosition() || this._geoSucessOffline();
+
+        // Get data from local storage
+        this._getLocalStorage();
 
         //  switch between Cycling and Running
          this._switchWorkOutType();
@@ -86,9 +89,6 @@ class Geolocate{
         //  Add event listener
          form.addEventListener('submit',this._addWorkOut.bind(this));
          containerWorkouts.addEventListener('click', this._moveMapToWorkOut.bind(this));
-
-         //  Get data from local storage
-        this._getLocalStorage();
     }
     
     _getPosition(){
@@ -109,10 +109,10 @@ class Geolocate{
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.#map);
 
-         // Set the marker base on the data in localstorage this._addMarkerToMap(work)
-         //this.#workOuts.forEach(work => this._addMarkerToMap(work));
-
         this.#map.on('click', this._loadForm.bind(this));
+
+        // Set the marker base on the data in localstorage
+        this.#workOuts.forEach(workout => this._addMarkerToMap(workout));
         
     }
 
@@ -125,13 +125,16 @@ class Geolocate{
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.#map);
 
-        
         this.#map.on('click', this._loadForm.bind(this));
+
+        // Set the marker base on the data in localstorage
+        this._getLocalStorage();//Get data while offline.
+        this.#workOuts.forEach(workout => this._addMarkerToMap(workout));
     }
 
     // Method to load form
-    _loadForm(e){
-        const {lat,lng} = e.latlng;
+    _loadForm(mapE){
+        const {lat,lng} = mapE.latlng;
         this.#mavEve = [lat,lng];
         form.classList.remove('hidden');
         inputDistance.focus();
@@ -205,7 +208,7 @@ class Geolocate{
     }
 
     _addMarkerToMap(workout){
-        L.marker(this.#mavEve)
+        L.marker(workout.coords)
         .addTo(this.#map)
         .bindPopup(L.popup({
             maxWidth: 250,
@@ -305,9 +308,8 @@ class Geolocate{
     }
 
     _getLocalStorage(){
-        let localData = JSON.parse(localStorage.getItem('workOuts'));
-        if(localData){
-            this.#workOuts  = localData;
+        //let localData = JSON.parse(localStorage.getItem('workOuts'));
+        if(this.#workOuts){
             this.#workOuts.forEach(work => this._addWorkOutToSideBar(work));
         }
     }
