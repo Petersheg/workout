@@ -78,7 +78,7 @@ class Geolocate{
 
     constructor(){
         // Get Position Either online or offline
-        this._getPosition() || this._geoSucessOffline();
+        this._getPosition();
 
         // Get data from local storage
         this._getLocalStorage();
